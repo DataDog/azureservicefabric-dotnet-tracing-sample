@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="VotingType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="DatadogAgent_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="VotingData_MinReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="VotingData_PartitionCount" DefaultValue="1" />
+    <Parameter Name="VotingData_TargetReplicaSetSize" DefaultValue="3" />
+    <Parameter Name="VotingWeb_InstanceCount" DefaultValue="-1" />
+  </Parameters>
+  <!--DATADOG_INSTALL-->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="DatadogAgentPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+    <!--DATADOG_INSTALL-->
+    <!--DATADOG_INSTALL-->
+    <Policies>
+      <ContainerHostPolicies CodePackageRef="Code">
+        <PortBinding ContainerPort="5002" EndpointRef="DatadogTypeEndpoint" />
+        <PortBinding ContainerPort="8126" EndpointRef="DatadogTraceEndpoint" />
+        <PortBinding ContainerPort="8125" EndpointRef="DatadogStatsEndpoint" />
+      </ContainerHostPolicies>
+    </Policies>
+    <!--END DATADOG_INSTALL-->
+    <!--END DATADOG_INSTALL-->
+  </ServiceManifestImport>
+  <!--END DATADOG_INSTALL-->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="VotingDataPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="VotingWebPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+    <Policies>
+      <RunAsPolicy CodePackageRef="Code" UserRef="SetupAdminUser" EntryPointType="Setup" />
+    </Policies>
+  </ServiceManifestImport>
+  <DefaultServices>
+    <!--DATADOG_INSTALL-->
+    <Service Name="DatadogAgent" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="DatadogAgentType" InstanceCount="[DatadogAgent_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <!--END DATADOG_INSTALL-->
+    <Service Name="VotingData">
+      <StatefulService ServiceTypeName="VotingDataType" TargetReplicaSetSize="[VotingData_TargetReplicaSetSize]" MinReplicaSetSize="[VotingData_MinReplicaSetSize]">
+        <UniformInt64Partition PartitionCount="[VotingData_PartitionCount]" LowKey="0" HighKey="25" />
+      </StatefulService>
+    </Service>
+    <Service Name="VotingWeb" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="VotingWebType" InstanceCount="[VotingWeb_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+  </DefaultServices>
+  <!--DATADOG_INSTALL-->
+  <Principals>
+    <Users>
+      <User Name="SetupAdminUser">
+        <MemberOf>
+          <SystemGroup Name="Administrators" />
+        </MemberOf>
+      </User>
+    </Users>
+  </Principals>
+  <!--END DATADOG_INSTALL-->
+</ApplicationManifest>

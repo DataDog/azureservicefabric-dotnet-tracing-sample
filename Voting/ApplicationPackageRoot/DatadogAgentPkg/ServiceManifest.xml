@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ServiceManifest Name="DatadogAgentPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <ServiceTypes>
+    <StatelessServiceType ServiceTypeName="DatadogAgentType" UseImplicitHost="true" />
+  </ServiceTypes>
+  <CodePackage Name="Code" Version="1.0.0">
+    <EntryPoint>
+      <ContainerHost>
+        <ImageName>datadog/agent</ImageName>
+      </ContainerHost>
+    </EntryPoint>
+    <EnvironmentVariables>
+      <EnvironmentVariable Name="DD_API_KEY" Value="API_KEY_GOES_HERE"/>
+      <EnvironmentVariable Name="DD_ENV" Value="apm-reliability-testing"/>
+      <EnvironmentVariable Name="DD_APM_ENABLED" Value="true"/>
+      <EnvironmentVariable Name="DD_APM_NON_LOCAL_TRAFFIC" Value="true"/>
+      <EnvironmentVariable Name="DD_DOGSTATSD_NON_LOCAL_TRAFFIC" Value="true"/>
+      <EnvironmentVariable Name="DD_HEALTH_PORT" Value="5002"/>
+    </EnvironmentVariables>
+  </CodePackage>
+  <ConfigPackage Name="Config" Version="1.0.0" />
+  <Resources>
+    <Endpoints>
+      <Endpoint Name="DatadogTypeEndpoint" UriScheme="http" Port="5002" Protocol="http"/>
+      <Endpoint Name="DatadogTraceEndpoint" UriScheme="http" Port="8126" Protocol="http"/>
+      <Endpoint Name="DatadogStatsEndpoint" UriScheme="udp" Port="8125" Protocol="udp"/>
+    </Endpoints>
+  </Resources>
+</ServiceManifest>
