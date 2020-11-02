@@ -50,6 +50,6 @@ if (-not (Test-Path env:DD_TRACE_DEBUG)) { $env:DD_TRACE_DEBUG = 'false' }
 [System.Environment]::SetEnvironmentVariable('COR_PROFILER', "{846F5F1C-F9AE-4B07-969E-05C26BC060D8}", [System.EnvironmentVariableTarget]::Machine)
 [System.Environment]::SetEnvironmentVariable('COR_PROFILER_PATH', "${env:DD_DOTNET_TRACER_HOME}\${bitness_path}\Datadog.Trace.ClrProfiler.Native.dll", [System.EnvironmentVariableTarget]::Machine)
 
-[System.Environment]::SetEnvironmentVariable('CORE_CLR_ENABLE_PROFILING', "0", [System.EnvironmentVariableTarget]::Machine) # Enable per app
-[System.Environment]::SetEnvironmentVariable('CORE_CLR_PROFILER', "{846F5F1C-F9AE-4B07-969E-05C26BC060D8}", [System.EnvironmentVariableTarget]::Machine)
-[System.Environment]::SetEnvironmentVariable('CORE_CLR_PROFILER_PATH', "${env:DD_DOTNET_TRACER_HOME}\${bitness_path}\Datadog.Trace.ClrProfiler.Native.dll", [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable('CORECLR_ENABLE_PROFILING', "0", [System.EnvironmentVariableTarget]::Machine) # Enable per app
+[System.Environment]::SetEnvironmentVariable('CORECLR_PROFILER', "{846F5F1C-F9AE-4B07-969E-05C26BC060D8}", [System.EnvironmentVariableTarget]::Machine)
+[System.Environment]::SetEnvironmentVariable('CORECLR_PROFILER_PATH', "${env:DD_DOTNET_TRACER_HOME}\${bitness_path}\Datadog.Trace.ClrProfiler.Native.dll", [System.EnvironmentVariableTarget]::Machine)
