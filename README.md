@@ -8,7 +8,7 @@ page_type: sample
 description: "The quickstart contains an application with multiple services demonstrating the concepts of service communication and use of reliable dictionaries, in conjunction with Datadog installation."
 ---
 
-# Service Fabric .NET Quickstart
+# Service Fabric .NET Tracer Quickstart
 This repository contains an quickstart project for [Microsoft Azure Service Fabric](https://azure.microsoft.com/services/service-fabric/). The quickstart project contains a single application with multiple services demonstrating the basic concepts of service communication and use of reliable dictionaries.
 
 For a guided tour with the quickstart:
