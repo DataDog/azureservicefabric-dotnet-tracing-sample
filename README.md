@@ -21,15 +21,15 @@ More info on Service Fabric:
  
 This guide does not include how-to on setting up and configuring an Azure Service Fabric Cluster.
  
-## Create a service fabric application
+## Create a Service Fabric application
 
-![Create a service fabric project](https://user-images.githubusercontent.com/1801443/93098850-5079fd80-f675-11ea-90d6-7573b7faef68.png)
+![Create a Service Fabric project](https://user-images.githubusercontent.com/1801443/93098850-5079fd80-f675-11ea-90d6-7573b7faef68.png)
 
 Start with a stateless ASP.NET Core application, and use MVC as a template.
 
 ![Create a stateleess ASP.NET Core application](https://user-images.githubusercontent.com/1801443/93099063-959e2f80-f675-11ea-805c-eb627e2b9e53.png)
 
-## Setting up the datadog agent
+## Setting up the Datadog Agent
 
 Add a new Service Fabric Service to the solution.
 
@@ -37,7 +37,8 @@ Add a new Service Fabric Service to the solution.
 
 ![Setup the agent container](https://user-images.githubusercontent.com/1801443/93107331-73111400-f67f-11ea-9a5e-06094e775177.png)
 
-Replace the ServiceManifest.xml with this:
+Replace the `ServiceManifest.xml` with this:
+
 ```
 <?xml version="1.0" encoding="utf-8"?>
 <ServiceManifest Name="DatadogAgentPkg" Version="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -70,7 +71,7 @@ Replace the ServiceManifest.xml with this:
 </ServiceManifest>
 ```
 
-Add the corresponding port bindings to the ServiceManfestImport within ApplicationManifest.xml
+Add the corresponding port bindings to the `ServiceManfestImport` section in `ApplicationManifest.xml`:
 
 ```
   <ServiceManifestImport>
@@ -88,8 +89,8 @@ Add the corresponding port bindings to the ServiceManfestImport within Applicati
 
 ## Installing the .NET Tracer
 
-The tracer requires machine administrator permissions.
-Add the SetupAdminUser to the Principals section in the ApplicationManifest.xml. If the Principals section is missing, add it.
+Installing the tracer requires machine administrator permissions.
+Add the `SetupAdminUser` to the `Principals` section in `ApplicationManifest.xml`. If the `Principals` section is missing, add it.
 
 ```
   <Principals>
@@ -103,7 +104,7 @@ Add the SetupAdminUser to the Principals section in the ApplicationManifest.xml.
   </Principals>
 ```
 
-Within the ServiceManifestImport of the service responsible for deploying the tracer to the cluster, give the Setup script SetupAdminUser as the executing user.
+In the `ServiceManifestImport` section of the service responsible for deploying the tracer to the cluster, `SetupAdminUser` as the executing user for the `Setup` script.
 
 ```
   <ServiceManifestImport>
@@ -115,7 +116,8 @@ Within the ServiceManifestImport of the service responsible for deploying the tr
   </ServiceManifestImport>
 ```  
 
-Within the ServiceManifest.xml of the service responsible for deploying the Datadog Tracer, add the reference to the install script.
+In the `ServiceManifest.xml` of the service responsible for deploying the tracer, add the reference to the install script:
+
 ```
   <CodePackage Name="Code" Version="1.0.0">
     <SetupEntryPoint>
@@ -133,8 +135,8 @@ Within the ServiceManifest.xml of the service responsible for deploying the Data
   </CodePackage>
 ```
 
-Include the DatadogInstall.bat and DatadogInstall.ps1 scripts in the project responsible for deploying the tracer.
-Ensure that in the properties of both scripts, you set that they are copied to the output directory.
+Include the `DatadogInstall.bat` and `DatadogInstall.ps1` scripts in the project responsible for deploying the tracer.
+In the file properties of both scripts, set them to be copied to the output directory.
 
 ![Copy to output directory](https://user-images.githubusercontent.com/1801443/93110062-d05a9480-f682-11ea-8fb4-7b266f576f68.png)
 
