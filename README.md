@@ -104,7 +104,7 @@ Add the `SetupAdminUser` to the `Principals` section in `ApplicationManifest.xml
   </Principals>
 ```
 
-In the `ServiceManifestImport` section of the service responsible for deploying the tracer to the cluster, `SetupAdminUser` as the executing user for the `Setup` script.
+In the `ServiceManifestImport` section of the service responsible for deploying the tracer to the cluster, set `SetupAdminUser` as the executing user for the `Setup` script.
 
 ```
   <ServiceManifestImport>
